@@ -84,7 +84,7 @@ public abstract class Server
         
         public void run()
         {
-            while (true) // ewige Schleife
+            while (server.serverSocket != null) // ewige Schleife
             {
                 try
                 {
@@ -101,6 +101,7 @@ public abstract class Server
                     System.err.println("Fehler beim Erwarten einer Verbindung in Server: " + pFehler);
                 }    
              }
+            
          }               
     }
 

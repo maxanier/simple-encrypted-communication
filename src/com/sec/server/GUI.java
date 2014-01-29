@@ -4,14 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class GUI extends JPanel {
-	private EncryptedServer server;
+	private SECServer server;
 	private JButton b_startstop;
 	private static JTextArea jta_log;
 	private JScrollPane jsp_log;
@@ -24,37 +23,41 @@ public class GUI extends JPanel {
 		//JButton
 		b_startstop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				//TODO: Toggle server
+				toggleServer();
 			}
 		});
 		//JTextArea
 		jta_log.setEditable(false);
 		jta_log.setLineWrap(true);
-		jta_log.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				System.out.println("Log updated!");
-				jta_log.setCaretPosition(jta_log.getDocument().getLength());
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {}
-			@Override
-			public void removeUpdate(DocumentEvent e) {}
-			
-		});
 		//JScrollPane
 		jsp_log.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		add(b_startstop);
+		add(jsp_log);
 	}
 	
 	private void toggleServer() {
 		if(server == null) {
 			server = new SECServer();
 			b_startstop.setText("Stop");
+			log("Server started");
 		} else {
 			server.close();
 			server = null;
 			b_startstop.setText("Start");
+			log("Server stopped");
 		}
+	}
+	
+	public static void log(String message) {
+		jta_log.append(message + "\n");
+		jta_log.setCaretPosition(jta_log.getDocument().getLength());
+	}
+	
+	public static void main(String[] args) {
+		JFrame f = new JFrame("Simple Encrypted Commpunication Server");
+		f.setSize(530,320);
+		f.add(new GUI());
+		f.setResizable(false);
+		f.setVisible(true);
 	}
 }
