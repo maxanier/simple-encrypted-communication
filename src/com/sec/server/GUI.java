@@ -49,10 +49,11 @@ public class GUI extends JPanel {
 	
 	private void toggleServer() {
 		if(server == null) {
-			//TODO: Start server
+			server = new SECServer();
 			b_startstop.setText("Stop");
 		} else {
-			//TODO: Stop server
+			server.close();
+			server = null;
 			b_startstop.setText("Start");
 		}
 	}
