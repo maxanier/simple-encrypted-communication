@@ -1,57 +1,48 @@
 package com.sec.util;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Calc {
 
-	//Returns a random prime number between 2 and max
-	public static int primeNumber(int max) {
-		int to = max + 1;
-		boolean[] gestrichen = new boolean[to];
-		ArrayList<Integer> primes = new ArrayList<Integer>();
-		for (int i = 2; i < to; i++) {
-			gestrichen[i] = false;
-		}
-		for (int i = 2; i < Math.sqrt(to); i++) {
-			if (!gestrichen[i]) {
-				for (int j = i * i; j < to; j += i)
-					gestrichen[j] = true;
-			}
-		}
-		for (int i = 2; i < gestrichen.length; i++) {
-			if (!gestrichen[i])
-				primes.add(i);
-		}
-		return primes
-				.get((int) Math.floor(Math.random() * (primes.size() - 1)));
+	// Returns a random BigInteger, maximum value is 2^bitLength-1, that is most
+	// probably prime (chances that it is not prime are 2^(-100))
+	public static BigInteger prime(int bitLength) {
+		return BigInteger.probablePrime(bitLength, new java.util.Random());
 	}
 
-	//Returns a random primeroot modulo p
-	public static int primeRoot(int p) {
-		ArrayList<Integer> tried = new ArrayList<Integer>();
+	// Returns a random primitive root of BigInteger p. p must be prime, else
+	// null is returned
+	public static BigInteger primeRoot(BigInteger p) {
+		if (!p.isProbablePrime(100))
+			return null;
+
+		ArrayList<BigInteger> tried = new ArrayList<BigInteger>();
 		while (true) {
 			boolean found = false;
-			int g = 0;
+			BigInteger g = null;
 			while (!found) {
-				g = (int) Math.floor(Math.random() * (p - 4) + 2);
+				g = new BigInteger(p.bitCount(), new java.util.Random());
 				if (tried.size() == 0)
 					tried.add(g);
-				for (int i = 0; i < tried.size(); i++) {
+				boolean notInList = true;
+				for (int i = 0; i < tried.size(); i++)
 					if (tried.get(i) == g)
-						break;
+						notInList = false;
+				if (notInList)
 					tried.add(g);
-				}
 				found = tried.get(tried.size() - 1) == g;
 			}
-			int[] mods = new int[p - 1];
-			for (int i = 0; i < (p - 1); i++) 
-				mods[i] = (int) Math.floor(Math.pow(g, i) % p);
+
+			int[] mods = new int[p.subtract(new BigInteger("" + 1)).intValue()];
+			for (int i = 0; i < (p.subtract(new BigInteger("" + 1)).intValue()); i++)
+				mods[i] = g.modPow(new BigInteger("" + i), p).intValue();
 			if (allUnequal(mods))
 				return g;
 		}
 	}
-
-	//Checks whether all the Integers in num[] are equal
+	
+	//Checks whether all the values in num[] are unequal
 	private static boolean allUnequal(int[] num) {
 		boolean unequal = true;
 		for (int i = 0; i < num.length; i++) {
