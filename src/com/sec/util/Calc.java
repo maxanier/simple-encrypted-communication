@@ -42,7 +42,18 @@ public class Calc {
 		}
 	}
 	
-	//Checks whether all the values in num[] are unequal
+	//Returns a random BigInteger, maximum size is p-sub
+	public BigInteger random(BigInteger p, int sub) {
+		BigInteger r;
+		BigInteger max = p.subtract(new BigInteger(""+sub));
+		do {
+			r = new BigInteger(p.bitCount(), new java.util.Random());
+		}
+		while(r.compareTo(max) > 0);
+		return r;
+	}
+	
+	//Checks whether all the values in num[] are unequal, used in prime root calculation
 	private static boolean allUnequal(int[] num) {
 		boolean unequal = true;
 		for (int i = 0; i < num.length; i++) {
