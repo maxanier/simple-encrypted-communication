@@ -1,13 +1,18 @@
 package com.sec.server;
 
 import com.sec.abi.EnhancedServer;
+import com.sec.util.*;
+import java.util.ArrayList;
+import java.math.BigInteger;
 
 
 public abstract class EncryptedServer extends EnhancedServer {
+	ArrayList<EConnection> eConnections;
+	private final int primeLength = 5;
 
 	public EncryptedServer(int pPortNr) {
 		super(pPortNr);
-		// TODO Auto-generated constructor stub
+		eConnections = new ArrayList<EConnection>();
 	}
 	
 	/**
@@ -15,7 +20,9 @@ public abstract class EncryptedServer extends EnhancedServer {
 	 */
 	@Override
 	public final void processNewConnection(String pClientIP, int pClientPort){
-		
+		GUI.log("New connection: " + pClientIP + ":" + pClientPort);
+		BigInteger prime = Calc.prime(primeLength);
+		eConnections.add(new EConnection(pClientIP, pClientPort, prime, Calc.primeRoot(prime)));
 	}
 	
 	/**
@@ -23,7 +30,7 @@ public abstract class EncryptedServer extends EnhancedServer {
 	 */
 	@Override
 	public final void processMessage(String pClientIP, int pClientPort, String pMessage){
-		
+		GUI.log("New msg: " + pMessage + "\nfrom: " + pClientIP + ":" + pClientPort);
 	}
 	
 	/**
@@ -31,7 +38,7 @@ public abstract class EncryptedServer extends EnhancedServer {
 	 */
 	@Override
 	public final void send(String pClientIP, int pClientPort, String pMessage){
-		
+		GUI.log("Encrypted and sent: " + pMessage + "\nto: " + pClientIP + ":" + pClientPort);
 	}
 	
 	/**
@@ -40,7 +47,7 @@ public abstract class EncryptedServer extends EnhancedServer {
 	 */
 	@Override
 	public final void sendToAll(String pMessage){
-		
+		GUI.log("Encrypted and sent to all: " + pMessage);
 	}
 	
 	
@@ -49,7 +56,7 @@ public abstract class EncryptedServer extends EnhancedServer {
 	 */
 	@Override
 	public final void processClosedConnection(String pClientIP, int pClientPort){
-		
+		GUI.log("Connection closed: " + pClientIP + ":" + pClientPort);
 	}
   
 	/**
@@ -57,7 +64,7 @@ public abstract class EncryptedServer extends EnhancedServer {
 	 * @param pClientIp ClientIp
 	 * @param pClientPort ClientPort
 	 */
-	public abstract void processNewEncryptedConntection(String pClientIp,int pClientPort);
+	public abstract void processNewEncryptedConnection(String pClientIp,int pClientPort);
 	
 	/**
 	 * Is called if the server receives a new encrypted message.
@@ -73,7 +80,4 @@ public abstract class EncryptedServer extends EnhancedServer {
 	 * @param pClientPort ClientPort
 	 */
 	public abstract void processClosedEncryptedConnection(String pClientIP, int pClientPort);
-	
-
-
 }
