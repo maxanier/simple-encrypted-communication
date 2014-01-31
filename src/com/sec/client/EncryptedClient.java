@@ -1,15 +1,18 @@
 package com.sec.client;
 
 
+import java.math.BigInteger;
+
 import com.sec.abi.EnhancedClient;
 import com.sec.server.GUI;
+import com.sec.util.Calc;
 import com.sec.util.Protokoll;
 
 public abstract class EncryptedClient extends EnhancedClient {
 	
 	private boolean encrypted=false;
 
-	private int key;
+	private BigInteger key;
 	
 	/**
 	 * Creates a new EncryptedClient and establishes a encrypted connection.
@@ -34,21 +37,27 @@ public abstract class EncryptedClient extends EnhancedClient {
 			String[] values =parameter.split(" ");
 			if(values.length!=3){
 				GUI.log("START command doesn´t contain all parameters");
+				super.send(Protokoll.ENCRYPTION_FAILED);
 				return;
 			}
 			
 			try {
-				int p=Integer.parseInt(values[0]);
-				int q=Integer.parseInt(values[1]);
-				int a=Integer.parseInt(values[2]);
 				
-				if(!calculateKey(p,q,a)){
+				BigInteger p=new BigInteger(values[0]);
+				BigInteger q=new BigInteger(values[1]);
+				BigInteger A=new BigInteger(values[2]);
+				
+				if(!calculateKey(p,q,A)){
 					GUI.log("Failed to calculate key");
 					super.send(Protokoll.ENCRYPTION_FAILED);
+					return;
 				}
+				GUI.log("Encryption created");
 				
 			} catch (NumberFormatException e) {
 				GUI.log("Could not parse START parameter");
+				super.send(Protokoll.ENCRYPTION_FAILED);
+				return;
 			}
 			
 		}
@@ -91,7 +100,32 @@ public abstract class EncryptedClient extends EnhancedClient {
 		return decrypted;
 	}
 	
-	private boolean calculateKey(int p,int q,int a){
+	private String encrypt(String msg){
+		if(!encrypted){
+			GUI.log("Encryption isn´t established yet");
+			return null;
+		}
+		
+		String encrypted=null;
+		
+		return encrypted;
+		
+	}
+	
+	private boolean calculateKey(BigInteger p,BigInteger q,BigInteger A){
+		BigInteger B;
+		try {
+			BigInteger b=Calc.random(p, 2);
+			B = q.pow(b.intValue());
+					
+			key=(A.pow(b.intValue())).mod(p);
+		} catch (Exception e) {
+			GUI.log("Failed to calculate Key: "+e.getMessage());
+			return false;
+		}
+		super.send(Protokoll.CLIENT_START+" "+B);
+		GUI.log("Calculated key: "+key);
+		return true;
 		
 	}
 

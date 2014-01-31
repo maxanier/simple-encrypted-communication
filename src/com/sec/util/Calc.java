@@ -43,7 +43,7 @@ public class Calc {
 	}
 	
 	//Returns a random BigInteger, maximum size is p-sub
-	public BigInteger random(BigInteger p, int sub) {
+	public static BigInteger random(BigInteger p, int sub) {
 		BigInteger r;
 		BigInteger max = p.subtract(new BigInteger(""+sub));
 		do {
