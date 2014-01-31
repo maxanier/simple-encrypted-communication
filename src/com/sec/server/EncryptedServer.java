@@ -1,8 +1,9 @@
 package com.sec.server;
 
-import com.sec.abi.Server;
+import com.sec.abi.EnhancedServer;
 
-public abstract class EncryptedServer extends Server {
+
+public abstract class EncryptedServer extends EnhancedServer {
 
 	public EncryptedServer(int pPortNr) {
 		super(pPortNr);

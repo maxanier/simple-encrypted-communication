@@ -1,8 +1,9 @@
 package com.sec.client;
 
-import com.sec.abi.Client;
 
-public abstract class EncryptedClient extends Client {
+import com.sec.abi.EnhancedClient;
+
+public abstract class EncryptedClient extends EnhancedClient {
 
 	
 	/**
