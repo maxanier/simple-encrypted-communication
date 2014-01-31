@@ -6,7 +6,8 @@ public abstract class EnhancedServer extends Server {
 		super(pPortNr);
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	
 
 
 }
