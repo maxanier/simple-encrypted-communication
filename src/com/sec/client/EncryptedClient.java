@@ -76,7 +76,11 @@ public abstract class EncryptedClient extends EnhancedClient {
 	 */
 	@Override
 	public final void send(String pMessage){
-		
+		String encrypted=encrypt(pMessage);
+		if(encrypted==null){
+			GUI.log("Encryption is not established yet");
+		}
+		super.send(Protokoll.MESSAGE+" "+encrypted);
 	}
 	
 	
