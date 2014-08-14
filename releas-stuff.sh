@@ -3,7 +3,7 @@
 commsg=$(git show -s --format=%s $(printenv GIT_COMMIT))
 echo "Commit message: " $commsg
  
-if ["${commsg/#release}" !="$commsg"; then
+if ["${commsg%#release}" !="$commsg"; then
 	echo "Commit does not include \#release"
     exit
 fi
