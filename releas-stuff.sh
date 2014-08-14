@@ -1,6 +1,6 @@
 #!/bin/sh
 
-commsg=$(git show -s --format=%s 192a6de050d5520b253315a29610f2c29f84cc4)
+commsg=$(git show -s --format=%s $(printenv GIT_COMMIT))
 echo "Commit message: " $commsg
  
 if [[ "${commsg}" != *\#release* ]]; then
