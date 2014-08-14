@@ -17,7 +17,7 @@ changelog=$(git log ${lasttag}..  --pretty=format:'<li> <a href="'${origin}'/com
 changelogfile=build/changelog.html
 echo $changelog > $changelogfile
 
-API_JSON=$(printf '{"tag_name": "v%s","target_commitish": "master","name": "v%s","body": "Release of version %s","draft": false,"prerelease": false}' $VERSION $VERSION $VERSION)
+API_JSON=$(printf '{"tag_name": "v%s","target_commitish": "master","name": "v%s","body": "Release of version %s","draft": false,"prerelease": false}' $1 $1 $1)
 owner="maxanier"
 repo="MinecraftSecondScreenMod"
 token="e3a447b30d370af965e0056242175703ea9ce15e"
