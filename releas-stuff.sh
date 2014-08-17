@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 commsg=$(git show -s --format=%s $(printenv GIT_COMMIT))
 echo "Commit message: " $commsg
