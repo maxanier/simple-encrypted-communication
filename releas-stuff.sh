@@ -6,15 +6,13 @@ commsg=$(git show -s --format=%s $(printenv GIT_COMMIT))
 echo "Commit message: " $commsg
 
 #Get lasttag
-origin=https://github.com/${1}/${2}
-echo "Origin url: " $origin
 lasttag=$(git describe --abbrev=0 --tags)
 echo "Last tag: " $lasttag
 
 #Get mainversion:
 IFS=. read major minor build <<<"${lasttag##*v}"
 echo "MainVersion: "$major"."$minor
-echo $SHELL
+echo "Shell: "$SHELL
 export VERSION=$major"."$minor
 
 echo $(printenv VERSION)
@@ -25,8 +23,17 @@ if [[ $commsg != *"$r"* ]]; then
     exit
 fi
 
+echo "${commsg##*VERSION:}"
+IFS=. read major minor <<<"${commsg##*VERSION:}"
+echo "New Mainversion:"major"."minor
+export VERSION=$major"."$minor
+
+echo $(printenv VERSION)
+
 
 #Generate Changelog
+origin=https://github.com/${1}/${2}
+echo "Origin url: " $origin
 changelog=$(git log ${lasttag}..  --pretty=format:'<li> <a href="'${origin}'/commit/%H">view commit </a> &bull; %s</li> ' --reverse | grep "#changelog")
 changelogfile=changelog.html
 echo $changelog > $changelogfile
