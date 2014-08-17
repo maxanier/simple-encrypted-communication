@@ -13,4 +13,5 @@ Client:						Server:
 							-ERR: Parameter wrong
 							
 -MSG <msg>					+MSG <msg>
-//Encrypted Message			
+//Encrypted Message		
+Release	
