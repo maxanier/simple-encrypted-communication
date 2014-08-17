@@ -14,4 +14,3 @@ Client:						Server:
 							
 -MSG <msg>					+MSG <msg>
 //Encrypted Message		
-Test
