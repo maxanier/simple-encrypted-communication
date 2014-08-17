@@ -12,9 +12,9 @@ lasttag=$(git describe --abbrev=0 --tags)
 echo "Last tag: " $lasttag
 
 #Get mainversion:
-ver=${lasttag%v}
+ver=${lasttag##*v}
 echo "Ver: "+$ver
-IFS=. read major minor build <<<"${lasttag%v}"
+IFS=. read major minor build <<<"${lasttag##*v}"
 echo "Version: "$major"."$minor
 
 r="#release"
