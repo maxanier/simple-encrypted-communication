@@ -12,10 +12,12 @@ lasttag=$(git describe --abbrev=0 --tags)
 echo "Last tag: " $lasttag
 
 #Get mainversion:
-ver=${lasttag##*v}
-echo "Ver: "+$ver
 IFS=. read major minor build <<<"${lasttag##*v}"
-echo "Version: "$major"."$minor
+echo "MainVersion: "$major"."$minor
+echo $SHELL
+export VERSION=$major"."$minor
+
+echo $(printenv VERSION)
 
 r="#release"
 if [[ $commsg != *"$r"* ]]; then
