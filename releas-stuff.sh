@@ -23,10 +23,14 @@ if [[ $commsg != *"$r"* ]]; then
 fi
 
 #Extract new version
-echo "${commsg##*VERSION:}"
-IFS=. read major minor <<<"${commsg##*VERSION:}"
-echo "New Mainversion:"major"."minor
-export VERSION=$major"."$minor
+v="VERSION:"
+if [[ $commsg == *"$v"* ]]; then
+	echo "Found new Mainversion"
+	echo "${commsg##*VERSION:}"
+	IFS=. read major minor <<<"${commsg##*VERSION:}"
+	echo "New Mainversion:"$major"."$minor
+	export VERSION=$major"."$minor
+fi
 
 echo $(printenv VERSION)
 
