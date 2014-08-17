@@ -14,3 +14,5 @@ Client:						Server:
 							
 -MSG <msg>					+MSG <msg>
 //Encrypted Message			
+
+changed some stuff

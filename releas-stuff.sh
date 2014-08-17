@@ -13,7 +13,7 @@ origin=https://github.com/${2}/${3}
 echo "Origin url: " $origin
 lasttag=$(git describe --abbrev=0 --tags)
 echo "Last tag: " $lasttag
-changelog=$(git log ${lasttag}..  --pretty=format:'<li> <a href="'${origin}'/commit/%H">view commit </a> &bull; %s</li> ' --reverse )
+changelog=$(git log ${lasttag}..  --pretty=format:'<li> <a href="'${origin}'/commit/%H">view commit </a> &bull; %s</li> ' --reverse | grep "#changelog")
 changelogfile=changelog.html
 echo $changelog > $changelogfile
 echo "Version:" $1 
