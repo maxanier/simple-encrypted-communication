@@ -1,6 +1,10 @@
 #!/bin/bash
 #Arguments: 1:Githubowner 2:Github repository name. Same as in url
 #Environment variable token:Github api token
+echo ""
+echo ""
+echo "VersionManagment: "
+
 #Get commit message
 commsg=$(git show -s --format=%s $(printenv GIT_COMMIT))
 echo "Commit message: " $commsg
@@ -31,10 +35,6 @@ if [[ $commsg == *"$v"* ]]; then
 	echo "New Mainversion:"$major"."$minor
 	export VERSION=$major"."$minor
 fi
-
-echo $(printenv VERSION)
-
-exit
 
 #Generate Changelog
 origin=https://github.com/${1}/${2}
