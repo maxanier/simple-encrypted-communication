@@ -14,7 +14,7 @@ echo "Last tag: " $lasttag
 #Get mainversion:
 ver=${lasttag%v}
 echo "Ver: "+$ver
-IFS=. major minor build <<<"${lasttag%v}"
+IFS=. read major minor build <<<"${lasttag%v}"
 echo "Version: "$major"."$minor
 
 r="#release"
