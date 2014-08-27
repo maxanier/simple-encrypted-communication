@@ -1,6 +1,6 @@
 #!/bin/bash
 #Arguments: 1:Githubowner 2:Github repository name. Same as in url 3:Changelog register url ("no" if no upload)
-#Environment variable token:Github api token
+#Environment variable token:Github api token, pass:changelog add password
 echo ""
 echo ""
 echo "VersionManagment: "
@@ -43,9 +43,10 @@ changelog=$(git log ${lasttag}..  --pretty=format:'<li> <a href="'${origin}'/com
 changelogfile=changelog.html
 echo $changelog > $changelogfile
 
+chpass=$(printenv PASS)
 if [ $3 ]
 then
-	curl --data "major=${major},minor=${minor},change=${changelog}" $3
+	curl --data "major=${major},minor=${minor},change=${changelog},pass=${pass}" $3
 fi
 
 #Create release
