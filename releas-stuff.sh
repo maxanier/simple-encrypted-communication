@@ -47,8 +47,7 @@ chpass=$(printenv PASS)
 if [ $3 ]
 then
 	echo "Uploading changelog"
-	result=$(curl --data "major=${major},minor=${minor},change=${changelog},pass=${chpass},build=$(printenv DRONE_BUILD_NUMBER)" ${3})
-	echo "Result: "$result
+	curl --data "major=${major}&minor=${minor}&change=${changelog}&pass=${chpass}&build=$(printenv DRONE_BUILD_NUMBER)" ${3}
 fi
 
 #Create release
