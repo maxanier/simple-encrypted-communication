@@ -1,5 +1,5 @@
 #!/bin/bash
-#Arguments: 1:Githubowner 2:Github repository name. Same as in url
+#Arguments: 1:Githubowner 2:Github repository name. Same as in url 3:Changelog register url ("no" if no upload)
 #Environment variable token:Github api token
 echo ""
 echo ""
@@ -42,6 +42,10 @@ echo "Origin url: " $origin
 changelog=$(git log ${lasttag}..  --pretty=format:'<li> <a href="'${origin}'/commit/%H">view commit </a> &bull; %s</li> ' --reverse | grep "#changelog")
 changelogfile=changelog.html
 echo $changelog > $changelogfile
+
+if $3 != "no"; then
+	curl --data "major=${major},minor=${minor},change=${changelog}" $3
+fi
 
 #Create release
 fversion=$(printenv VERSION)"."$(printenv DRONE_BUILD_NUMBER)
