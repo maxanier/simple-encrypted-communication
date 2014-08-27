@@ -43,7 +43,8 @@ changelog=$(git log ${lasttag}..  --pretty=format:'<li> <a href="'${origin}'/com
 changelogfile=changelog.html
 echo $changelog > $changelogfile
 
-if $3 != "no"; then
+if [ $3 ]
+then
 	curl --data "major=${major},minor=${minor},change=${changelog}" $3
 fi
 
